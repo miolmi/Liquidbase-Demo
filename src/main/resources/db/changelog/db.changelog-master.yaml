@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Mike Minder
+      changes:
+        - createTable:
+            tableName: article
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: text
+                  type: varchar(255)
+
+  - changeSet:
+      id: 2
+      author: Mike Minder
+      changes:
+        -  modifyDataType:
+             columnName:  text
+             newDataType:  varchar(500)
+             schemaName:  public
+             tableName:  article
+  - changeSet:
+      id: 3
+      author: Mike Minder
+      changes:
+        - renameTable:
+            newTableName: articles
+            oldTableName: article
