@@ -1,7 +1,11 @@
 package ch.bbw.m151.liquibasedemo;
 
 import ch.bbw.m151.liquibasedemo.datamodel.ArticleEntity;
+import ch.bbw.m151.liquibasedemo.datamodel.CategoryEntity;
+import ch.bbw.m151.liquibasedemo.datamodel.CommentEntity;
 import ch.bbw.m151.liquibasedemo.repository.ArticleRepository;
+import ch.bbw.m151.liquibasedemo.repository.CategoryRepository;
+import ch.bbw.m151.liquibasedemo.repository.CommentRepository;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,11 @@ class LiquibaseDemoApplicationTests implements WithAssertions {
 
 	@Autowired
 	ArticleRepository articleRepository;
+	@Autowired
+	CommentRepository commentRepository;
+	@Autowired
+	CategoryRepository categoryRepository;
+
 	@Test
 	void setupAndTestDatabase() {
 		var article = new ArticleEntity();
@@ -25,6 +34,8 @@ class LiquibaseDemoApplicationTests implements WithAssertions {
 
 	@Test
 	void contextLoads() {
-
+		assertThat(articleRepository.findAll()).isNotNull();
+		assertThat(commentRepository.findAll()).isNotNull();
+		assertThat(categoryRepository.findAll()).isNotNull();
 	}
 }
