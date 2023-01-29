@@ -23,9 +23,8 @@ class LiquibaseDemoApplicationTests implements WithAssertions {
 		assertThat(article.getId()).isNotNull();
 	}
 
-
 	@Test
 	void contextLoads() {
-	}
 
+	}
 }

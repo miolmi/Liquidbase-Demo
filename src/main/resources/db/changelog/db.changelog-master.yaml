@@ -1,4 +1,6 @@
 databaseChangeLog:
+  - preConditions:
+      - onFail: WARN
   - changeSet:
       id: 1
       author: Mike Minder
@@ -9,6 +11,7 @@ databaseChangeLog:
               - column:
                   name: id
                   type: uuid
+                  defaultValueComputed: gen_random_uuid()
                   constraints:
                     primaryKey: true
               - column:
@@ -19,8 +22,8 @@ databaseChangeLog:
               - column:
                   name: text
                   type: varchar(255)
-
   - changeSet:
+      #Task 1 - increase size of datatype
       id: 2
       author: Mike Minder
       changes:
@@ -30,9 +33,108 @@ databaseChangeLog:
              schemaName:  public
              tableName:  article
   - changeSet:
+      #Task 2 - rename tableName
       id: 3
       author: Mike Minder
       changes:
         - renameTable:
             newTableName: articles
             oldTableName: article
+  - changeSet:
+      #Task 3 - introduce new technical fields
+      id: 4
+      author: Mike Minder
+      changes:
+        - addColumn:
+            tableName: articles
+            columns:
+              - column:
+                  name: version
+                  type: varchar(50)
+                  defaultValueNumeric: '1.0'
+              - column:
+                  name: created_ts
+                  type: TIMESTAMP
+                  defaultValueDate: CURRENT_TIMESTAMP()
+  - changeSet:
+      #Task 4 - create new comment table
+      id: 5
+      author: Mike Minder
+      changes:
+        - createTable:
+            catalogName: comments
+            tableName: comments
+            columns:
+              - column:
+                  name: id
+                  type: Integer
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: article_id
+                  type: uuid
+  - changeSet:
+      #Task 5 - new search by article.title
+      id: 6
+      author: Mike Minder
+      changes:
+        - createIndex:
+            clustered:  true
+            columns:
+              - column:
+                  descending:  true
+                  name:  title
+            indexName:  idx_title
+            tableName:  articles
+            #tablespace:  A String
+            unique:  true
+  - changeSet:
+      #Task 6 - create new category table
+      id: 7
+      author: Mike Minder
+      changes:
+        - createTable:
+            catalogName: categories
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  type: varchar(50)
+              - column:
+                  name: description
+                  type: varchar(255)
+
+  - changeSet:
+      #Task 7 - add sample data with liquibase
+      id: 8
+      author: Mike Minder
+      changes:
+        - insert:
+            tableName: articles
+            columns:
+              - column:
+                  name: title
+                  value: pseudoArticleTitle
+              - column:
+                name: text
+                value: pseudoArticleText
+        - insert:
+            tableName: comments
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                name: article_id
+                valueComputed: (SELECT id FROM articles LIMIT 1)
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: pseudoCategoriesName
+              - column:
+                name: description
+                value: pseudoCategoriesDescription
+
+
