@@ -23,7 +23,7 @@ databaseChangeLog:
                   name: text
                   type: varchar(255)
   - changeSet:
-      #Task 1 - increase size of datatype
+      #Task 1 - increase size of varchar from 255 to 500
       id: 2
       author: Mike Minder
       changes:
@@ -33,7 +33,7 @@ databaseChangeLog:
              schemaName:  public
              tableName:  article
   - changeSet:
-      #Task 2 - rename tableName
+      #Task 2 - rename table name from article to articles
       id: 3
       author: Mike Minder
       changes:
@@ -41,7 +41,7 @@ databaseChangeLog:
             newTableName: articles
             oldTableName: article
   - changeSet:
-      #Task 3 - introduce new technical fields
+      #Task 3 - introduce new technical fields. CURRENT_TIMESTAMP is a SQL function giving out current time
       id: 4
       author: Mike Minder
       changes:
@@ -57,12 +57,11 @@ databaseChangeLog:
                   type: TIMESTAMP
                   defaultValueDate: CURRENT_TIMESTAMP()
   - changeSet:
-      #Task 4 - create new comment table
+      #Task 4 - create new comment table. with 2 columns
       id: 5
       author: Mike Minder
       changes:
         - createTable:
-            catalogName: comments
             tableName: comments
             columns:
               - column:
@@ -94,7 +93,6 @@ databaseChangeLog:
       author: Mike Minder
       changes:
         - createTable:
-            catalogName: categories
             tableName: categories
             columns:
               - column:
@@ -105,7 +103,7 @@ databaseChangeLog:
                   type: varchar(255)
 
   - changeSet:
-      #Task 7 - add sample data with liquibase
+      #Task 7 - add sample data with liquibase.
       id: 8
       author: Mike Minder
       changes:
@@ -116,8 +114,8 @@ databaseChangeLog:
                   name: title
                   value: pseudoArticleTitle
               - column:
-                name: text
-                value: pseudoArticleText
+                  name: text
+                  value: pseudoArticleText
         - insert:
             tableName: comments
             columns:
@@ -125,8 +123,8 @@ databaseChangeLog:
                   name: id
                   value: 1
               - column:
-                name: article_id
-                valueComputed: (SELECT id FROM articles LIMIT 1)
+                  name: article_id
+                  valueComputed: (SELECT id FROM articles LIMIT 1)
         - insert:
             tableName: categories
             columns:
@@ -134,7 +132,7 @@ databaseChangeLog:
                   name: name
                   value: pseudoCategoriesName
               - column:
-                name: description
-                value: pseudoCategoriesDescription
+                  name: description
+                  value: pseudoCategoriesDescription
 
 
